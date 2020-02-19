@@ -1,0 +1,34 @@
+﻿@model ArabicWorkersMangement.ViewModels.DayViewModel
+@if (Model.DayId == 0)
+{
+    {
+        ViewBag.Title = "يوم جديد";
+    }
+    <h2>يوم جديد</h2>
+}
+else
+{
+    {
+        ViewBag.Title = "تعديل";
+    }
+    <h2>تعديل اليوم</h2>
+}
+
+@using (Html.BeginForm("Save", "Day"))
+{
+    <div class="form-group ">
+        <label>اليوم</label>
+        @Html.TextBoxFor(m => m.DayDate, "{0:yyyy-MM-dd}", new { @class = "form-control" })
+    </div>
+    <div class="form-group ">
+        <label>حضور</label>
+        @Html.TextBoxFor(m => m.ShiftStartingTime, "{0:HH:mm}", new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>انصراف</label>
+        @Html.TextBoxFor(c => c.ShiftEndingTime, "{0:HH:mm}", new { @class = "form-control" })
+    </div>
+    @Html.HiddenFor(x => x.DayId)
+    @Html.HiddenFor(x => x.EmployeeId)
+    <button type="submit" class="btn btn-primary">حفظ</button>
+}

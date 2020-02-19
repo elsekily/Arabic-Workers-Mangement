@@ -1,0 +1,39 @@
+﻿@model ArabicWorkersMangement.Models.Employee
+@{
+    ViewBag.Title = "جديد";
+}
+
+<h2>عامل جديد</h2>
+@using (Html.BeginForm("save", "Employee"))
+{
+    <div class="container-name">
+        <div class="form-group">
+            <label>الاسم</label>
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>تكلفة الساعة</label>
+            @Html.TextBoxFor(c => c.SalaryPerHour, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="container-name">
+        <div class="form-group">
+            <label>رقم الهاتف</label>
+            @Html.TextBoxFor(c => c.PhoneNumber, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>العنوان</label>
+            @Html.TextBoxFor(c => c.Address, new { @class = "form-control" })
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">حفظ</button>
+}
+
+<style type="text/css">
+    .container-name div {
+        display: inline-block;
+        width: 500px;
+        min-height: 50px;
+        height: auto;
+    }
+</style>

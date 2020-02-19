@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ArabicWorkersMangement.Models.Employee>
+@{
+    ViewBag.Title = "العمال";
+}
+<h2>العمال</h2>
+<br />
+<input type="button" value="اضافة عامل" class="btn btn-primary" onclick="location.href='@Url.Action("new", "employee")'" />
+
+@if (!Model.Any())
+{
+    <br />
+    <br />
+    <p>لايوجد عاملين</p>
+}
+else
+{
+    <br />
+    <br />
+    <table id="employees" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th class="not_mapped_style" style="text-align:right">الأسم</th>
+                <th class="not_mapped_style" style="text-align:right">حساب الساعة</th>
+                <th class="not_mapped_style" style="text-align:right">حذف</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(employee.Name, "details", "Employee", new { id = employee.ID }, null)</td>
+                    <td>@employee.SalaryPerHour</td>
+                    <td>
+                        <button data-employee-id="@employee.ID" class="btn-link js-delete">حذف</button>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#employees").DataTable();
+
+            $("#employees .js-delete").on("click", function () {
+                if (confirm("هل ترغب فى حذف هذا العامل؟؟")) {
+                    $.ajax({
+                        url: "/employee/delete/" + $(this).attr("data-employee-id"),
+                        method: "POST",
+                        success: function () {
+                            location.reload(true);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,128 @@
+﻿@model ArabicWorkersMangement.ViewModels.EmployeeDaysViewModel
+
+@{
+    ViewBag.Title = Model.Employee.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@Model.Employee.Name</h2>
+@using (Html.BeginForm("save", "Employee"))
+{
+    <div class="employee">
+        <div class="form-group">
+            <label>الاسم</label>
+            @Html.TextBoxFor(m => m.Employee.Name, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>تكلفة الساعة</label>
+            @Html.TextBoxFor(c => c.Employee.SalaryPerHour, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="employee">
+        <div class="form-group">
+            <label>رقم الهاتف</label>
+            @Html.TextBoxFor(c => c.Employee.PhoneNumber, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>العنوان</label>
+            @Html.TextBoxFor(c => c.Employee.Address, new { @class = "form-control" })
+        </div>
+    </div>
+    @Html.HiddenFor(e => e.Employee.ID)
+    <button type="submit" class="btn btn-primary">حفظ</button>
+}
+<hr />
+@if (!Model.Days.Any())
+{
+    <input type="button" value="يوم جديد" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Day",new { id = Model.Employee.ID }, null)'" />
+    <br />
+    <br />
+    <p>لايوجد أيام سابقة </p>
+}
+else
+{
+    <h2>اخر 5 اسابيع</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="text-right">
+            <tr>
+
+                <th class="not_mapped_style" style="text-align:right">الاسبوع</th>
+                <th class="not_mapped_style" style="text-align:right">عدد الساعات</th>
+                <th class="not_mapped_style" style="text-align:right">مستحقات الأسبوع</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.WeekHours)
+            {
+                <tr>
+                    <td>@item.WeekFirstDay.ToString("dddd dd-MMM-yyyy", new System.Globalization.CultureInfo("ar-AE"))</td>
+                    <td>@item.TotalHours</td>
+                    <td>@(@item.TotalHours * @Model.Employee.SalaryPerHour)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <hr />
+    <input type="button" value="يوم جديد" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Day",new { id = Model.Employee.ID }, null)'" />
+    <br />
+    <br />
+    <table id="days" class="table table-bordered table-hover">
+        <thead class="text-right">
+            <tr>
+
+                <th class="not_mapped_style" style="text-align:right">اليوم</th>
+                <th class="not_mapped_style" style="text-align:right">حضور</th>
+                <th class="not_mapped_style" style="text-align:right">انصراف</th>
+                <th class="not_mapped_style" style="text-align:right">المدة</th>
+                <th class="not_mapped_style" style="text-align:right">حذف</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var day in Model.Days)
+            {
+                <tr>
+
+                    <td>
+                        @Html.ActionLink(day.Start.ToString("dddd dd-MMM-yyyy", new System.Globalization.CultureInfo("ar-AE")), "Edit", "Day", new { id = day.Id }, null)
+                    </td>
+                    <td>@day.Start.ToString("HH:mm")</td>
+                    <td>@day.End.ToString("HH:mm")</td>
+                    <td>@day.DayDuration</td>
+                    <td>
+                        <button data-day-id="@day.Id" class="btn-link js-delete">حذف</button>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#days").DataTable({
+                "ordering": false
+            });
+            $("#days .js-delete").on("click", function () {
+                if (confirm("هل ترغب فى حذف هذا اليوم؟؟")) {
+                    $.ajax({
+                        url: "/day/delete/" + $(this).attr("data-day-id"),
+                        method: "POST",
+                        success: function () {
+                            location.reload(true);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
+<style type="text/css">
+    .employee div {
+        display: inline-block;
+        width: 500px;
+        min-height: 50px;
+        height: auto;
+    }
+</style>

@@ -100,7 +100,7 @@ namespace ArabicWorkersMangement.Migrations
                 .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
-            Sql("INSERT INTO [dbo].[AspNetUsers] ([Id], [Email], [EmailConfirmed], [PasswordHash], [SecurityStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [UserName]) VALUES (N'a8620adc-b1a1-4a21-81b4-a5189f80786e', N'admin@admin.com', 0, N'ADOmZpFCyOcWfcldGL/NvT4KXyucDOJtqqGXpW6+yIN8d/LbJPI6hir2p9KpDNHK0Q==', N'c091e7be-7c8a-4e8f-8b86-acd1a54aa33b', NULL, 0, 0, NULL, 1, 0, N'admin@admin.com')");
+            Sql("INSERT INTO [dbo].[AspNetUsers] ([Id], [Email], [EmailConfirmed], [PasswordHash], [SecurityStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [UserName]) VALUES (N'a8620adc-b1a1-4a21-81b4-a5189f80786e', N'admin@admin.com', 0, N'APScGYGrhrxqUcGNKcPDflrc/jXxiwSPvbG7wUzf68vdPUAxMS1msEFP8izhXlipOg==', N'c091e7be-7c8a-4e8f-8b86-acd1a54aa33b', NULL, 0, 0, NULL, 1, 0, N'admin@admin.com')");
         }
 
         public override void Down()

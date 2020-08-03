@@ -1,8 +1,8 @@
 # Arabic-Workers-Mangement
-Simple Arabic web application to manage and store:
-   Workers/employees.
-   Attendance and Leaving times.
-   Calculating work duration for Each employee in hours.
+Simple Arabic web application to manage and store:   
+   Workers/employees.   
+   Attendance and Leaving times.   
+   Calculating work duration for Each employee in hours.   
    Salaries.
 
     Server SQL
